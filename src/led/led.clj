@@ -8,12 +8,17 @@
 
 (def board (arduino :firmata "/dev/ttyACM0"))
 
-(pin-mode board 12 OUTPUT)
+(pin-mode board 9 OUTPUT)
 
-(doseq [_ (range 5)]
-  (digital-write board 12 HIGH)
-  (Thread/sleep 1000)
-  (digital-write board 12 LOW)
-  (Thread/sleep 1000))
+(loop [x (range 5)]
+  (if (= (first x) nil) nil
+    (recur
+      (do
+        (digital-write board 9 HIGH)
+        (Thread/sleep 1000)
+        (digital-write board 9 LOW)
+        (Thread/sleep 1000)
+        (rest x)))
+    ))
 
 (close board)
