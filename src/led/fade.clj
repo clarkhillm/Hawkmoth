@@ -8,13 +8,24 @@
 
 (def board (arduino :firmata "/dev/ttyACM0"))
 
-(pin-mode board 9 OUTPUT)
+(pin-mode board 9 PWM)
 
-(loop [x (range 255)]
+(loop [x (range 100)]
   (if (= (first x) nil) nil
     (recur
       (do
-        (analog-write (first x) 9 PWM)
-        (Thread/sleep 1000)
+        (analog-write board 9 (first x))
+        (Thread/sleep 100)
         (rest x)))))
+
+(Thread/sleep 1000)
+
+(loop [x (reverse (range 100))]
+  (if (= (first x) nil) nil
+    (recur
+      (do
+        (analog-write board 9 (first x))
+        (Thread/sleep 100)
+        (rest x)))))
+
 (close board)
