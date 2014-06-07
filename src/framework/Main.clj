@@ -14,6 +14,3 @@
         ))))
 
 (.start manager)
-
-
-
