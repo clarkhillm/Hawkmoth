@@ -1,14 +1,13 @@
 (ns
   ^{:author cWX205128}
-  framework.Main
+  framework.messageCore
   (:import [java.io File])
   (:use [framework.properties])
   (:use [framework.messageBox])
+  (:use [framework.managedResoreces])
   )
 
 (def workerSeq (atom ()))
-(def rigistedThread (atom ()))
-
 (let [worker_path (File. (:worker_path properties))]
   (do
     (def worker_seq (seq (.list worker_path)))
@@ -30,18 +29,8 @@
         (def rThread
           (eval
             (read-string
-              (str "(Thread. (proxy [Runnable][] (run [] (" (first x) "/work \"" (first x) "\"))) \"" (first x) "\")"))))
+              (str "(Thread. (proxy [Runnable][] (run [] (" (first x) "/work \""
+                (first x) "\"))) \"" (first x) "\")"))))
         (swap! rigistedThread concat [rThread])
-        (send box assoc (first x) nil);init message
+        (box_init (first x))
         (rest x)))))
-
-(def manager
-  "管理线程，目前职责还不是很清楚，大体上他应该监控注册的进程情况"
-  (Thread.
-    (proxy [Runnable] []
-      (run []
-        (while true
-          (println ".")
-          (Thread/sleep 500)
-          )
-        )))) ;(.start manager)
