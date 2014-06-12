@@ -1,9 +1,16 @@
 (ns
   ^{:author cWX205128}
-  framework.worker.worker2)
+  framework.worker.worker2
+  (:use [framework.properties])
+  )
 
 (defn work [name]
-  (while true
-    (println "#")
-    (Thread/sleep 500)
-    ))
+  (def writer (BufferedWriter. testWriter))
+  (loop [step 0]
+    (recur
+      (do
+        (def data (str "test " step))
+        (doto writer
+          (.write data 0 (count data))
+          (.newLine))
+        (+ step 1)))))
