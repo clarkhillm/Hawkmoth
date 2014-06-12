@@ -4,13 +4,16 @@
   (javafx.embed.swing.JFXPanel.)
   (:import [javax.swing JFrame SwingUtilities]
            [javafx.embed.swing JFXPanel]
-           [javafx.scene.layout BorderPane StackPane]
+           [javafx.scene.layout BorderPane StackPane HBox]
            [javafx.event ActionEvent EventHandler]
            [javafx.stage Stage StageStyle Modality]
            [javafx.application Platform]
            [javafx.scene Scene]
            [javafx.scene.control Button Label TextArea ToggleButton]
-           [javafx.scene.image Image ImageView]))
+           [javafx.scene.image Image ImageView])
+  (:use [framework.messageCore])
+  (:use [framework.managedResoreces])
+  )
 
 (defn aboutHandler [this window]
   (proxy [EventHandler] []
@@ -37,7 +40,7 @@
         (.show))
       )))
 
-(def Frame (JFrame. "FX"))
+(def Frame (JFrame. "Hawkmoth"))
 (def fxPanel (JFXPanel.))
 (SwingUtilities/invokeLater
   (proxy [Runnable] []
@@ -51,7 +54,21 @@
         (proxy [Runnable] []
           (run [] (def pan (BorderPane.))
             (def Aboutbtn (Button. "about"))
-            (.setTop pan Aboutbtn)
+            (def top (HBox.))
+            (doto (.getChildren top)
+              (.add Aboutbtn)
+              )
+            (loop [worker @rigistedThread]
+              (if (nil? (first worker)) nil
+                (recur
+                  (do
+                    (doto (.getChildren top)
+                      (.add (Button. (.getName (first worker))))
+                      )
+                    (rest worker)))
+                )
+              )
+            (.setTop pan top)
             (def scene (Scene. pan))
             (.setOnAction Aboutbtn (aboutHandler this (.getWindow scene)))
             (.setScene fxPanel scene))))
