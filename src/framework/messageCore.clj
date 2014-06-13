@@ -31,6 +31,8 @@
             (read-string
               (str "(Thread. (proxy [Runnable][] (run [] (" (first x) "/work \""
                 (first x) "\"))) \"" (first x) "\")"))))
-        (swap! rigistedThread concat [rThread])
+        (rigistThread rThread)
         (box_init (first x))
         (rest x)))))
+
+(.start (first(filter (fn [x] (= "manager" (.getName x))) @rigistedThread)))
