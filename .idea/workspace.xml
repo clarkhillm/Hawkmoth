@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="58eb51ec-13c7-488d-9ed8-8369d5b0748b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fx/Test.clj" afterPath="$PROJECT_DIR$/src/fx/Test.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/framework/worker/manager.clj" afterPath="$PROJECT_DIR$/src/framework/worker/manager.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/framework/messageCore.clj" afterPath="$PROJECT_DIR$/src/framework/messageCore.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/framework/properties.clj" afterPath="$PROJECT_DIR$/src/framework/properties.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/framework/worker/worker2.clj" afterPath="$PROJECT_DIR$/src/framework/worker/worker2.clj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Hawkmoth.iws" />
@@ -699,7 +693,7 @@
       <workItem from="1402062565499" duration="750000" />
       <workItem from="1402063344858" duration="7446000" />
       <workItem from="1402157139195" duration="3061000" />
-      <workItem from="1402665248279" duration="8272000" />
+      <workItem from="1402665248279" duration="8359000" />
     </task>
     <task id="LOCAL-00001" summary="添加工程信息">
       <created>1393855361446</created>
@@ -721,11 +715,15 @@
       <created>1402157660957</created>
       <updated>1402157660957</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=",,,">
+      <created>1402674655965</created>
+      <updated>1402674655965</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26550000" />
+    <option name="totallyTimeSpent" value="26637000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="6" />
@@ -779,7 +777,8 @@
     <MESSAGE value="甲醇发电机&#10;" />
     <MESSAGE value="3D Test. The JavaFX 3D Test in windows." />
     <MESSAGE value="remove empty lines.." />
-    <option name="LAST_COMMIT_MESSAGE" value="remove empty lines.." />
+    <MESSAGE value=",,," />
+    <option name="LAST_COMMIT_MESSAGE" value=",,," />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
