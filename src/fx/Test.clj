@@ -3,14 +3,15 @@
   fx.Test
   (javafx.embed.swing.JFXPanel.)
   (:import [javax.swing JFrame SwingUtilities]
-           [javafx.embed.swing JFXPanel]
-           [javafx.scene.layout BorderPane StackPane HBox VBox]
-           [javafx.event ActionEvent EventHandler]
-           [javafx.stage Stage StageStyle Modality]
-           [javafx.application Platform]
-           [javafx.scene Scene]
-           [javafx.scene.control Button Label TextArea ToggleButton TextField]
-           [javafx.scene.image Image ImageView])
+   [javafx.embed.swing JFXPanel]
+   [javafx.scene.layout BorderPane StackPane HBox VBox]
+   [javafx.event ActionEvent EventHandler]
+   [javafx.stage Stage StageStyle Modality]
+   [javafx.application Platform]
+   [javafx.scene Scene]
+   [javafx.scene.control Button Label TextArea ToggleButton TextField]
+   [javafx.scene.image Image ImageView]
+   [javafx.concurrent Service Task])
   (:use [framework.messageCore])
   (:use [framework.managedResoreces])
   (:use [framework.messageBox])
@@ -24,7 +25,9 @@
 (defn getButton [text] (first (filter (fn [x] (= text (.getText x))) @buttons)))
 
 (defn aboutHandler [this window]
-  (proxy [EventHandler] []
+  (proxy
+    [EventHandler]
+    []
     (handle [event]
       (def dialog (Stage.))
       (def stack (StackPane.))
@@ -45,22 +48,49 @@
 
 (defn createManagerWindow [button window]
   (def threadName "managerReceiver")
+  (def receivService
+    (proxy
+      [Service]
+      []
+      (createTask []
+        (proxy
+          [Task]
+          []
+          (call []
+            (loop [m nil]
+              (Thread/sleep 10)
+              (if-not (nil? m)
+                (load-string m)
+                (recur (getMessage threadName))
+                )
+              ))))))
+
   (def dialog (Stage.))
   (def stack (StackPane.))
   (def vbox (VBox.))
   (def hbox (HBox.))
   (def text (TextField.))
+  (.setPrefWidth text 300)
   (def t (TextArea.))
   (.setEditable t false)
-  (.setPrefWidth text 300)
   (def sendButton (Button. "send"))
   (.setOnAction sendButton
-    (proxy [EventHandler] []
+    (proxy
+      [EventHandler]
+      []
       (handle [event]
+        (.restart receivService)
         (sendMessage "manager" (str {:from threadName :message (.getText text)}))
         (.clear text)
         (.setDisable sendButton true)
-
+        )))
+  (.setOnSucceeded receivService
+    (proxy
+      [EventHandler]
+      []
+      (handle [event]
+        (.appendText t (str (:message (.. event (getSource) (getValue))) "\n"))
+        (.setDisable sendButton false)
         )))
   (doto (.getChildren hbox)
     (.add text) (.add sendButton))
@@ -78,11 +108,15 @@
     (.initOwner window)
     (.setScene scene)
     (.setOnHidden
-      (proxy [EventHandler] []
+      (proxy
+        [EventHandler]
+        []
         (handle [event] (.setSelected (getButton "manager") false))))))
 
 (defn managerHandler [button window]
-  (proxy [EventHandler] []
+  (proxy
+    [EventHandler]
+    []
     (handle [event]
       (if (true? (.isSelected button))
         (if (empty? (filter (fn [x] (= "manager" (.getTitle x))) @currentStage))
@@ -93,7 +127,9 @@
         (.close (getWindow "manager"))))))
 
 (SwingUtilities/invokeLater
-  (proxy [Runnable] []
+  (proxy
+    [Runnable]
+    []
     (run []
       (doto Frame
         (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
@@ -101,7 +137,9 @@
         (.setSize 500 200)
         (.setVisible true))
       (Platform/runLater
-        (proxy [Runnable] []
+        (proxy
+          [Runnable]
+          []
           (run []
             (def pan (BorderPane.))
             (def scene (Scene. pan))
@@ -110,7 +148,9 @@
             (doto (.getChildren top)
               (.add Aboutbtn))
             (loop [worker @rigistedThread]
-              (if (nil? (first worker)) nil
+              (if
+                (nil? (first worker))
+                nil
                 (recur
                   (do
                     (def button (ToggleButton. (.getName (first worker))))

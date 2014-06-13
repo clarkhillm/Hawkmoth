@@ -7,8 +7,8 @@
 
 (defn work [name]
   (while true
-    (println @box)
-    (Thread/sleep 500)
+
+    (Thread/sleep 10)
     (let [m (getMessage name)]
       (if-not (nil? m)
         (do

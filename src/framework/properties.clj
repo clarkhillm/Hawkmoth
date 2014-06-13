@@ -4,7 +4,7 @@
 
 (def properties
   {
-    :worker_path "D:\\myPrj\\fxTest\\src\\framework\\worker"
+    :worker_path "C:\\Users\\gavin\\Documents\\GitHub\\Hawkmoth\\src\\framework\\worker"
     :data_handler {
                     :test "TestDataHandler"
                     }

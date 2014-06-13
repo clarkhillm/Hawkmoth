@@ -12,7 +12,9 @@
   (do
     (def worker_seq (seq (.list worker_path)))
     (loop [x worker_seq]
-      (if (nil? (first x)) nil
+      (if
+        (nil? (first x))
+        nil
         (recur
           (do
             (def keyOfWorker (first (.split (first x) "[.]")))
@@ -23,13 +25,15 @@
             (rest x)))))))
 
 (loop [x @workerSeq]
-  (if (nil? (first x)) nil
+  (if (nil? (first x))
+    nil
     (recur
       (do
         (def rThread
           (eval
             (read-string
-              (str "(Thread. (proxy [Runnable][] (run [] (" (first x) "/work \""
+              (str "(Thread. (proxy [Runnable][] (run [] ("
+                (first x) "/work \""
                 (first x) "\"))) \"" (first x) "\")"))))
         (rigistThread rThread)
         (box_init (first x))
