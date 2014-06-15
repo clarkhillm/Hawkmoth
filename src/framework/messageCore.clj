@@ -40,3 +40,9 @@
         (rest x)))))
 
 (.start (first(filter (fn [x] (= "manager" (.getName x))) @rigistedThread)))
+
+(defn my-watch [key identity old-val new-val]
+  (println (str "Old: " old-val))
+  (println (str "New: " new-val)))
+
+(add-watch box "watch1" my-watch)

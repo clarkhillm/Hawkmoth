@@ -48,6 +48,7 @@
 
 (defn createManagerWindow [button window]
   (def threadName "managerReceiver")
+
   (def receivService
     (proxy
       [Service]
@@ -62,8 +63,7 @@
               (if-not (nil? m)
                 (load-string m)
                 (recur (getMessage threadName))
-                )
-              ))))))
+                )))))))
 
   (def dialog (Stage.))
   (def stack (StackPane.))
