@@ -13,6 +13,6 @@
 
 (defn getMessage [threadName]
   (let [messageQueue ((keyword threadName) @box)]
-    (send box assoc (keyword threadName) (rest messageQueue))
+    (if-not (empty? (first messageQueue))
+      (send box assoc (keyword threadName) (rest messageQueue)))
     (first messageQueue)))
-
