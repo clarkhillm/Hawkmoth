@@ -6,16 +6,17 @@
 
 (defn work [name]
   (while true
-    (Thread/sleep 10)
+    (Thread/sleep 100)
     (let [m (getMessage name)]
       (if-not (nil? m)
         (do
-          (println "manager_message: " m)
           (def mm (load-string m))
-          (case (:message mm)
-            "hello"
-            (sendMessage (:from mm) (str {:from name :message "hello I an manager thread."}))
-            "watch box"
-            (sendMessage (:from mm) (str {:from name :message @box}))
-            ""
-            ))))))
+          (sendMessage (:from mm)
+            (str
+              {:from name
+               :message (case (:message mm)
+                          "hello" "hello I an manager thread."
+                          "watch threads" (str [@rigistedThread])
+                          "unknow message.")})))
+        (.put ((keyword name) @blockingQueneMap) "")
+        ))))
