@@ -59,7 +59,6 @@
           []
           (call []
             (loop [m nil]
-              (Thread/sleep 10)
               (if-not (nil? m)
                 (load-string m)
                 (recur (getMessage threadName))
