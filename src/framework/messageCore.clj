@@ -48,26 +48,20 @@
         (.put ((first key) @blockingQueneMap) (String.))
         (rest key)))))
 
-(add-watch
-  box
-  "watch1"
-  (fn [key identity old-val new-val]
-    (println new-val)
-    (loop [key (keys new-val)]
-      (if
-        (nil? (first key))
-        nil
-        (recur
-          (do
-            (if-not
-              (empty?
-                ((first key) @box))
-              (if-not (nil? ((first key) @blockingQueneMap))
-                (.clear ((first key) @blockingQueneMap)))
-              )
-            (rest key)))))))
-
 (.start (first (filter (fn [x] (= "manager" (.getName x))) @rigistedThread)))
 
-;(.start (Thread. (proxy [Runnable] [] (run [] (while true (println @box) (Thread/sleep 500))))))
-
+(.start
+  (Thread.
+    (proxy
+      [Runnable]
+      []
+      (run []
+        (while true
+          (loop [w @workerSeq]
+            (if (nil? (first w))
+              nil
+              (recur
+                (do
+                  (if-not (.isEmpty (.get box (first w)))
+                    (.clear ((keyword (first w)) @blockingQueneMap)))
+                  (rest w))))))))))

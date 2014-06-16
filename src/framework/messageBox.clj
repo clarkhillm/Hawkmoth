@@ -1,18 +1,16 @@
 (ns
   ^{:author cWX205128}
-  framework.messageBox)
+  framework.messageBox
+  (:import [java.util HashMap ArrayDeque]))
 
-(def box (agent {}))
+(def box (HashMap.))
 
-(defn box_init [threadName] (send box assoc (keyword threadName) ()))
+(defn box_init [threadName] (.put box threadName (ArrayDeque.)))
 
 (defn sendMessage [threadName message]
-  (let [messageQueue ((keyword threadName) @box)]
-    (if (string? message)
-      (send box assoc (keyword threadName) (concat messageQueue [message])))))
+  (if (nil? (.get box threadName)) (box_init threadName))
+  (if (string? message) (.add (.get box threadName) message)))
 
 (defn getMessage [threadName]
-  (let [messageQueue ((keyword threadName) @box)]
-    (if-not (empty? (first messageQueue))
-      (send box assoc (keyword threadName) (rest messageQueue)))
-    (first messageQueue)))
+  (if (nil? (.get box threadName)) (box_init threadName))
+  (if-not (.isEmpty (.get box threadName)) (.removeFirst (.get box threadName)) nil))

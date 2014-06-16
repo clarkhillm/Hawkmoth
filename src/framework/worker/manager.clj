@@ -6,7 +6,6 @@
 
 (defn work [name]
   (while true
-    (Thread/sleep 100)
     (let [m (getMessage name)]
       (if-not (nil? m)
         (do
