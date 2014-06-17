@@ -17,5 +17,5 @@
                           "hello" "hello I an manager thread."
                           "watch threads" (str [@rigistedThread])
                           "unknow message.")})))
-        (.put ((keyword name) @blockingQueneMap) "")
+        (blocking_put name)
         ))))
