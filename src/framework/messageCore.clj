@@ -37,16 +37,9 @@
                 (first x) "\"))) \"" (first x) "\")"))))
         (rigistThread rThread)
         (initBlockQueneMap (first x))
+        (blocking_put (first x))
         (box_init (first x))
         (rest x)))))
-
-(loop [key (keys @blockingQueneMap)]
-  (if (nil? (first key))
-    nil
-    (recur
-      (do
-        (.put ((first key) @blockingQueneMap) (String.))
-        (rest key)))))
 
 (.start (first (filter (fn [x] (= "manager" (.getName x))) @rigistedThread)))
 
@@ -63,5 +56,5 @@
               (recur
                 (do
                   (if-not (.isEmpty (.get box (first w)))
-                    (.clear ((keyword (first w)) @blockingQueneMap)))
-                  (rest w))))))))))
+                    (blocking_clear (first w))
+                    (rest w)))))))))))
