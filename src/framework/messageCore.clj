@@ -41,12 +41,10 @@
         (box_init (first x))
         (rest x)))))
 
-(.start (first (filter (fn [x] (= "manager" (.getName x))) @rigistedThread)))
-
+;阻塞所有没有消息的线程
 (.start
   (Thread.
-    (proxy
-      [Runnable]
+    (proxy [Runnable]
       []
       (run []
         (while true
@@ -58,3 +56,12 @@
                   (if-not (.isEmpty (.get box (first w)))
                     (blocking_clear (first w))
                     (rest w)))))))))))
+
+(initBlockQueneMap watcherName)
+(.start
+  (Thread.
+    (proxy [Runnable]
+      []
+      (run [] (while true (println box) (blocking_put watcherName)))) watcherName))
+
+(.start (first (filter (fn [x] (= "manager" (.getName x))) @rigistedThread)))
