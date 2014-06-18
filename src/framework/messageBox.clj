@@ -1,6 +1,7 @@
 (ns
   ^{:author cWX205128}
   framework.messageBox
+  (:use framework.managedResoreces)
   (:import [java.util HashMap ArrayDeque]))
 
 (def box (HashMap.))
@@ -9,8 +10,12 @@
 
 (defn sendMessage [threadName message]
   (if (nil? (.get box threadName)) (box_init threadName))
-  (if (string? message) (.add (.get box threadName) message)))
+  (if (string? message) (.add (.get box threadName) message)) (blocking_clear watcherName))
 
 (defn getMessage [threadName]
   (if (nil? (.get box threadName)) (box_init threadName))
-  (if-not (.isEmpty (.get box threadName)) (.removeFirst (.get box threadName)) nil))
+  (if-not (.isEmpty (.get box threadName))
+    (do
+      (def value (.removeFirst (.get box threadName)))
+      (blocking_clear watcherName)
+      value) nil))
