@@ -15,7 +15,11 @@
               {:from name
                :message (case (:message mm)
                           "hello" "hello I an manager thread."
-                          "watch threads" (str [@rigistedThread])
-                          "unknow message.")})))
-        (blocking_put name)
-        ))))
+                          "threads"
+                          (prn-str
+                            (map
+                              (fn [x]
+                                {:name (.getName x),:state (.name (.getState x))})
+                              @rigistedThread))
+                          "unknow message")})))
+        (blocking_put name)))))
