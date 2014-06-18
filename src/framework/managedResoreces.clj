@@ -11,3 +11,5 @@
   (swap! blockingQueneMap assoc (keyword threadName) (ArrayBlockingQueue. 1)))
 (defn blocking_put [threadName] (.put ((keyword threadName) @blockingQueneMap) ""))
 (defn blocking_clear [threadName] (.clear ((keyword threadName) @blockingQueneMap)))
+
+(def watcherName "messageWatcher")
