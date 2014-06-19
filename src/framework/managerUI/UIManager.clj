@@ -42,7 +42,17 @@
       []
       (handle [event]
         (.restart receivService)
-        (sendMessage "manager" (str {:from threadName :message (.getText text)}))
+        (def sa (object-array ["" "" "" ""]))
+        (def messageArray (.split (.getText text) " "))
+        (loop [l (alength messageArray)]
+          (if-not (= 0 l)
+            (recur (do (aset sa (- l 1) (aget messageArray (- l 1))) (- l 1)))))
+        (sendMessage "manager"
+          (str
+            {:from threadName
+             :message (aget sa 0)
+             :command (aget sa 1)
+             :parametter (aget sa 2)}))
         (.clear text)
         (.setDisable sendButton true))))
   (.setOnSucceeded receivService
