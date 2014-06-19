@@ -19,3 +19,11 @@
       (def value (.removeFirst (.get box threadName)))
       (blocking_clear watcherName)
       value) nil))
+
+(def messageAttachment (HashMap.))
+
+(defn getAttachment [key]
+  (def attachment (.get messageAttachment key)) (.remove key) attachemnt)
+
+(defn setAttachment [attachment]
+  (.put messageAttachment (.hashCode attachment) attachment) (.hashCode attachment))
