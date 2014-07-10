@@ -23,7 +23,7 @@
 (def messageAttachment (HashMap.))
 
 (defn getAttachment [key]
-  (def attachment (.get messageAttachment key)) (.remove key) attachemnt)
+  (def attachment (.get messageAttachment key)) (.remove key) attachment)
 
 (defn setAttachment [attachment]
   (.put messageAttachment (.hashCode attachment) attachment) (.hashCode attachment))
