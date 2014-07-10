@@ -15,7 +15,7 @@
   (:use [framework.messageCore])
   (:use [framework.managedResoreces])
   (:use [framework.messageBox])
-  (:require [framework.managerUI.manager :as manager])
+  (:require [framework.managerUI.UIManager :as manager])
   (:use [framework.managerUI.managerCommon])
   )
 
